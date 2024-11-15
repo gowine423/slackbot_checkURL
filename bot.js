@@ -30,6 +30,7 @@ const checkURL = strURL => {
     })
     .catch(error => {
         console.error('Error:', error);
+        return error;
     });
 }
 
