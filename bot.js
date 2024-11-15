@@ -10,7 +10,7 @@ const app = new App({
 const checkURL = strURL => {
     const formData = new FormData();
     formData.append('domain',
-        'linkedin.com',
+        strURL,
     );
 
     fetch('https://domain-dns-and-mail-security-checker.p.rapidapi.com/data', {
@@ -36,7 +36,7 @@ const checkURL = strURL => {
 // Listen for messages
 app.command('/checkurl', async ({ command, ack, respond }) => {
     await ack(); // Acknowledge the command request
-    result = checkURL(command.text)
+    result = await checkURL(command.text)
     await respond(result); // Respond with the text provided in the command
 });
 
