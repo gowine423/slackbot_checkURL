@@ -36,8 +36,10 @@ const checkURL = strURL => {
 // Listen for messages
 app.command('/checkurl', async ({ command, ack, respond }) => {
     await ack(); // Acknowledge the command request
-    result = await checkURL(command.text)
-    await respond(result); // Respond with the text provided in the command
+    result = await checkURL(command.text);
+    console.log("-----------hehe:", result);
+    
+    await respond(JSON.stringify(result)); // Respond with the text provided in the command
 });
 
 // Start your app
