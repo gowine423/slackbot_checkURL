@@ -37,10 +37,30 @@ const checkURL = strURL => {
 // Listen for messages
 app.command('/checkurl', async ({ command, ack, respond }) => {
     await ack(); // Acknowledge the command request
-    result = await checkURL(command.text);
-    console.log("-----------hehe:", result);
-    
-    await respond(JSON.stringify(result)); // Respond with the text provided in the command
+    const formData = new FormData();
+    formData.append('domain',
+        command.text,
+    );
+
+    fetch('https://domain-dns-and-mail-security-checker.p.rapidapi.com/data', {
+        method: 'POST',
+        headers: {
+            'x-rapidapi-host': 'domain-dns-and-mail-security-checker.p.rapidapi.com',
+            'x-rapidapi-key': '04ab65914amsh44814d74a1a56a5p1661c1jsn3d4258c22dc1',
+            // 'Content-Type': 'multipart/form-data',
+            // Note: 'Content-Type' is not needed for FormData; it will be set automatically
+        },
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(async(data) => {
+        console.log(data);
+        await respond(JSON.stringify(result));
+    })
+    .catch(async(error) => {
+        console.error('Error:', error);
+        await respond(JSON.stringify(result));
+    });
 });
 
 // Start your app
