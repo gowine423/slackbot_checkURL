@@ -55,11 +55,11 @@ app.command('/checkurl', async ({ command, ack, respond }) => {
     .then(response => response.json())
     .then(async(data) => {
         console.log(data);
-        await respond(JSON.stringify(result));
+        await respond(JSON.stringify(data));
     })
     .catch(async(error) => {
         console.error('Error:', error);
-        await respond(JSON.stringify(result));
+        await respond(JSON.stringify(error));
     });
 });
 
