@@ -16,6 +16,10 @@ app.command('/checkURL', async ({ command, ack, respond }) => {
     await respond(command.text); // Respond with the text provided in the command
 });
 
+app.get('/', (req, res) => {
+    res.send('Welcome to the homepage!');
+});
+
 // Start your app
 (async () => {
     await app.start(process.env.PORT || 3000);
