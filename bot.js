@@ -63,6 +63,40 @@ app.command('/checkurl', async ({ command, ack, respond }) => {
     });
 });
 
+
+app.command('/checkbulkurl', async ({ command, ack, respond }) => {
+    await ack(); // Acknowledge the command request
+    result = [];
+    urls = command.text.split(' ').filter(url => url.trim() !== '');
+    for (let url of urls) {
+        const formData = new FormData();
+        formData.append('domain',
+            url,
+        );
+    
+        await fetch('https://domain-dns-and-mail-security-checker.p.rapidapi.com/data', {
+            method: 'POST',
+            headers: {
+                'x-rapidapi-host': 'domain-dns-and-mail-security-checker.p.rapidapi.com',
+                'x-rapidapi-key': '04ab65914amsh44814d74a1a56a5p1661c1jsn3d4258c22dc1',
+                // 'Content-Type': 'multipart/form-data',
+                // Note: 'Content-Type' is not needed for FormData; it will be set automatically
+            },
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(async(data) => {
+            console.log(data);
+            result.push(data)
+        })
+        .catch(async(error) => {
+            console.error('Error:', error);
+            result.push(error)
+        });
+    }
+    await respond(JSON.stringify(result));
+});
+
 // Start your app
 (async () => {
     await app.start(process.env.PORT || 3000);
