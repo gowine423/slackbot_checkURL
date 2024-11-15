@@ -9,10 +9,9 @@ const app = new App({
 
 // Listen for messages
 app.command('/checkURL', async ({ command, ack, respond }) => {
+    await ack(); // Acknowledge the command request
     console.log(command.text);
     console.log(command);
-    
-    await ack(); // Acknowledge the command request
     await respond(command.text); // Respond with the text provided in the command
 });
 
